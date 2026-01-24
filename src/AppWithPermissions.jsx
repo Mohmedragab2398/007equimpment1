@@ -9,14 +9,14 @@
 import React, { useState, useEffect } from 'react';
 import EquipmentManagementSystem from './components/EquipmentManagementSystem';
 import AdminPermissionsPanel from './components/AdminPermissionsPanel';
-import '@/styles/globals.css';
+import './styles/globals.css';
 import '@fontsource/ibm-plex-sans-arabic/400.css';
 import '@fontsource/ibm-plex-sans-arabic/500.css';
 import '@fontsource/ibm-plex-sans-arabic/600.css';
 import '@fontsource/ibm-plex-sans-arabic/700.css';
 
 // استيراد نظام الصلاحيات
-import { USER_ROLES } from '@/utils/AdvancedPermissionsManager';
+import { USER_ROLES } from './utils/AdvancedPermissionsManager';
 
 /**
  * 🎯 الطريقة الآمنة للدمج:
