@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Package, Users, Upload, Trash2, DollarSign, Plus, Edit2, Search, Download, UserPlus, X, ShieldCheck, User } from 'lucide-react';
+import { Package, Users, Upload, Trash2, DollarSign, Plus, Edit2, Search, Download, UserPlus, X, ShieldCheck, User, FileSpreadsheet, MapPin, BarChart3 } from 'lucide-react';
+import ExcelDeductionsUpload from './ExcelDeductionsUpload';
+import ZoneManagement from './ZoneManagement';
+import ZoneInventoryDashboard from './ZoneInventoryDashboard';
 
 // EquipmentManagementSystem
 // Features:
@@ -180,6 +183,19 @@ const EquipmentManagementSystem = () => {
             <button onClick={() => setActiveSection('riders')} className={`w-full text-right px-3 py-2 rounded ${activeSection==='riders'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>المناديب</button>
             <button onClick={() => setActiveSection('inventory')} className={`w-full text-right px-3 py-2 rounded ${activeSection==='inventory'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>المخزون</button>
             <button onClick={() => setActiveSection('orders')} className={`w-full text-right px-3 py-2 rounded ${activeSection==='orders'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>الطلبات</button>
+            <div className="pt-4 border-t" />
+            <button onClick={() => setActiveSection('excel-deductions')} className={`w-full text-right px-3 py-2 rounded flex items-center gap-2 ${activeSection==='excel-deductions'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>
+              <FileSpreadsheet className="w-4 h-4" />
+              رفع Excel للخصومات
+            </button>
+            <button onClick={() => setActiveSection('zones')} className={`w-full text-right px-3 py-2 rounded flex items-center gap-2 ${activeSection==='zones'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>
+              <MapPin className="w-4 h-4" />
+              إدارة الزونات
+            </button>
+            <button onClick={() => setActiveSection('zone-inventory')} className={`w-full text-right px-3 py-2 rounded flex items-center gap-2 ${activeSection==='zone-inventory'?'bg-blue-600 text-white':'hover:bg-gray-100'}`}>
+              <BarChart3 className="w-4 h-4" />
+              مخزون الزونات
+            </button>
             <div className="pt-4 border-t" />
             <div className="flex gap-2">
               <button onClick={exportJSON} className="flex-1 bg-green-600 text-white py-2 rounded">تصدير JSON</button>
@@ -364,6 +380,21 @@ const EquipmentManagementSystem = () => {
                 ))}
               </div>
             </div>
+          )}
+
+          {activeSection === 'excel-deductions' && (
+            <ExcelDeductionsUpload onUploadSuccess={() => {
+              // يمكن إضافة أي إجراءات إضافية بعد الرفع الناجح
+              console.log('تم رفع ملف Excel بنجاح');
+            }} />
+          )}
+
+          {activeSection === 'zones' && (
+            <ZoneManagement />
+          )}
+
+          {activeSection === 'zone-inventory' && (
+            <ZoneInventoryDashboard />
           )}
         </main>
       </div>
