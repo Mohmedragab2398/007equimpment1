@@ -14,7 +14,20 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    },
+    commonjsOptions: {
+      include: [/xlsx/, /node_modules/],
+      transformMixedEsModules: true
+    }
+  },
+  optimizeDeps: {
+    include: ['xlsx'],
+    exclude: []
   },
   server: {
     host: true
