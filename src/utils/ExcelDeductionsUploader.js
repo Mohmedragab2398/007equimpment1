@@ -5,9 +5,23 @@
  * هذا الملف يحل مشكلة تعيين عمود "الزون" بشكل صحيح
  */
 
-// xlsx will be imported dynamically when needed
-
 const DEDUCTIONS_STORAGE_KEY = 'ems_deductions_v1';
+
+/**
+ * Dynamic import helper for xlsx
+ * This ensures xlsx is only loaded when needed and works in both dev and build
+ */
+async function loadXLSX() {
+  try {
+    // Try dynamic import first
+    const module = await import('xlsx');
+    return module.default || module;
+  } catch (error) {
+    console.warn('Failed to load xlsx dynamically, trying alternative method', error);
+    // Fallback: return null and handle gracefully
+    return null;
+  }
+}
 
 /**
  * هيكل البيانات الصحيح للخصومات
@@ -25,9 +39,11 @@ const DEDUCTIONS_COLUMNS = {
  * قراءة ملف Excel وتحويله إلى بيانات منظمة
  */
 export async function parseDeductionsExcel(file) {
-  // Dynamic import for xlsx
-  const XLSXModule = await import('xlsx');
-  const XLSX = XLSXModule.default || XLSXModule;
+  // Load xlsx library
+  const XLSX = await loadXLSX();
+  if (!XLSX) {
+    throw new Error('فشل تحميل مكتبة Excel. يرجى التأكد من تثبيت المكتبات.');
+  }
   
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -275,9 +291,12 @@ export function getDeductionsByZone(zone) {
  * تصدير البيانات إلى Excel
  */
 export async function exportDeductionsToExcel(deductions = null) {
-  // Dynamic import for xlsx
-  const XLSXModule = await import('xlsx');
-  const XLSX = XLSXModule.default || XLSXModule;
+  // Load xlsx library
+  const XLSX = await loadXLSX();
+  if (!XLSX) {
+    alert('فشل تحميل مكتبة Excel. يرجى التأكد من تثبيت المكتبات.');
+    return;
+  }
   
   const data = deductions || getAllDeductions();
   
